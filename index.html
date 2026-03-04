@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Core of Pencil</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  font-family: Arial;
+  background: linear-gradient(to right, #2b1055, #7597de);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+.product {
+  background: rgba(255,255,255,0.1);
+  margin: 15px;
+  padding: 15px;
+  border-radius: 10px;
+}
+button {
+  padding: 8px 15px;
+  margin-top: 10px;
+  border: none;
+  background: gold;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+#cart {
+  background: rgba(0,0,0,0.4);
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+input {
+  padding: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Core of Pencil ✏️</h1>
+<h3>Pencil Carving & Photo Frames</h3>
+
+<h2>Pencil Carving (₹50 per letter)</h2>
+<input type="text" id="nameInput" placeholder="Enter Name">
+<button onclick="addName()">Add to Cart</button>
+
+<h2>Photo Frames</h2>
+
+<div class="product">
+12x15 – ₹700
+<br>
+<button onclick="addToCart('12x15 Frame',700)">Add</button>
+</div>
+
+<div class="product">
+10x15 – ₹600
+<br>
+<button onclick="addToCart('10x15 Frame',600)">Add</button>
+</div>
+
+<div class="product">
+8x12 – ₹400
+<br>
+<button onclick="addToCart('8x12 Frame',400)">Add</button>
+</div>
+
+<div class="product">
+6x9 – ₹250
+<br>
+<button onclick="addToCart('6x9 Frame',250)">Add</button>
+</div>
+
+<div id="cart">
+<h2>🛒 Cart</h2>
+<ul id="cartItems"></ul>
+<h3>Total: ₹<span id="total">0</span></h3>
+<button onclick="orderNow()">Order on WhatsApp</button>
+</div>
+
+<script>
+let cart = [];
+let total = 0;
+
+function addToCart(name, price){
+  cart.push({name, price});
+  total += price;
+  updateCart();
+}
+
+function addName(){
+  let name = document.getElementById("nameInput").value;
+  if(name === "") return;
+
+  let price = name.length * 50;
+  cart.push({name: "Pencil Carving: " + name, price});
+  total += price;
+  updateCart();
+}
+
+function updateCart(){
+  let list = document.getElementById("cartItems");
+  list.innerHTML = "";
+  cart.forEach(item=>{
+    let li = document.createElement("li");
+    li.textContent = item.name + " - ₹" + item.price;
+    list.appendChild(li);
+  });
+  document.getElementById("total").textContent = total;
+}
+
+function orderNow(){
+  if(cart.length === 0){
+    alert("Cart is empty!");
+    return;
+  }
+
+  let message = "Hello, I want to order:%0A";
+  cart.forEach(item=>{
+    message += item.name + " - ₹" + item.price + "%0A";
+  });
+  message += "Total: ₹" + total;
+
+  window.open("https://wa.me/918367218113?text=" + message);
+}
+</script>
+
+</body>
+</html>
